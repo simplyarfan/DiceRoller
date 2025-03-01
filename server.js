@@ -2,9 +2,16 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
-
 const PORT = process.env.PORT || 3000;
+
+// Enable CORS for testing CORS failures
+const corsOptions = {
+    origin: "https://your-static-site-url.azurestaticapps.net", // Allow only your static site
+    methods: "GET",
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 // Dice rolling API endpoint
 app.get("/roll", (req, res) => {
