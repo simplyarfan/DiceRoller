@@ -1,5 +1,5 @@
 {
-  "name": "dice-roller-api",
+  "name": "dice-roller-aa",
   "version": "1.0.0",
   "description": "A REST API for rolling dice",
   "main": "server.js",
