@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Roller</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Roll the Dice</h1>
-    <div id="dice">🎲</div>
-    <button onclick="rollDice()">Roll</button>
-    
+    <title>Test Dice Roller API</title>
     <script>
         function rollDice() {
-            const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-            const randomIndex = Math.floor(Math.random() * diceFaces.length);
-            const diceElement = document.getElementById("dice");
-            
-            diceElement.classList.add("rolling");
-            setTimeout(() => {
-                diceElement.textContent = diceFaces[randomIndex];
-                diceElement.classList.remove("rolling");
-            }, 300);
+            fetch("https://your-api-name.azurewebsites.net/roll")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").textContent = "Rolled: " + data.roll;
+                })
+                .catch(error => console.error("API Error:", error));
+        }
+        
+        function testCORSFailure() {
+            fetch("https://your-api-name.azurewebsites.net/roll", { mode: 'no-cors' })
+                .then(response => console.log("CORS Test: Should fail", response))
+                .catch(error => console.error("CORS Error:", error));
         }
     </script>
+</head>
+<body>
+    <h1>Test Dice Roller API</h1>
+    <button onclick="rollDice()">Roll Dice</button>
+    <button onclick="testCORSFailure()">Test CORS Failure</button>
+    <p id="result"></p>
 </body>
 </html>
