@@ -1,23 +1,19 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 3000;
+app.use(cors());
 
-// Enable CORS with specific settings to demonstrate failure
-const corsOptions = {
-  origin: 'diceroller-excjgrefatdzduep.canadacentral-01.azurewebsites.net', // Change this to your hosted site to test failures
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-};
+const PORT = process.env.PORT || 3000;
 
-app.use(cors(corsOptions));
-
-// Dice roller API
-app.get('/roll', (req, res) => {
-  const diceRoll = Math.floor(Math.random() * 6) + 1;
-  res.json({ result: diceRoll });
+// Dice rolling API endpoint
+app.get("/roll", (req, res) => {
+    const diceFaces = [1, 2, 3, 4, 5, 6];
+    const rollResult = diceFaces[Math.floor(Math.random() * diceFaces.length)];
+    res.json({ roll: rollResult });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
