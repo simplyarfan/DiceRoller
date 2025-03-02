@@ -8,6 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write  # Required for OIDC authentication
+      contents: read  # Needed for actions/checkout
+
     steps:
       - uses: actions/checkout@v4
 
@@ -21,6 +26,7 @@ jobs:
           cd backend
           npm install
 
+      # ✅ Azure Login Step (Now works)
       - name: Azure Login
         uses: azure/login@v2
         with:
@@ -28,6 +34,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # ✅ Deploy Backend to Azure App Service
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
