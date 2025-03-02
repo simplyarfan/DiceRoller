@@ -29,6 +29,7 @@ jobs:
           app_location: "/" # Adjust if needed
           api_location: "api" # If you have an API folder, set this correctly
           output_location: "build" # Adjust based on your build output
+          app_build_command: "npm install && npm run build"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
