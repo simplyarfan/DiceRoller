@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 // Enable CORS for testing CORS failures
 const corsOptions = {
-    origin: "https://your-static-site-url.azurestaticapps.net", // Allow only your static site
+    origin: "https://salmon-dune-097b16e10.6.azurestaticapps.net", // Allow only your static site
     methods: "GET",
     optionsSuccessStatus: 200
 };
