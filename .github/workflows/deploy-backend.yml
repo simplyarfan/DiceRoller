@@ -1,4 +1,4 @@
-name: Deploy Node.js API to Azure
+name: Deploy Backend to Azure Web App
 
 on:
   push:
@@ -9,35 +9,29 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write  # Needed for authentication
-      contents: read  # Required for actions/checkout
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Azure Login using Service Principal
+      - name: Log in to Azure using Service Principal
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+      - name: Install Dependencies
+        run: |
+          cd backend
+          npm install
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'dice-roller-aa'  # Ensure this matches your Azure Web App name
-          package: .
+          app-name: 'dice-roller-aa'
+          slot-name: 'Production'
+          package: ./backend
 
       - name: Logout from Azure
         run: az logout
