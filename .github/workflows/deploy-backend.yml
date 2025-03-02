@@ -9,7 +9,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,9 +16,7 @@ jobs:
       - name: Log in to Azure using Service Principal
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Install Dependencies
         run: |
@@ -29,9 +26,9 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'dice-roller-aa'
-          slot-name: 'Production'
-          package: ./backend
+          app-name: "YOUR_AZURE_BACKEND_APP_NAME"
+          slot-name: "production"
+          package: backend
 
       - name: Logout from Azure
         run: az logout
