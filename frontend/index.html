@@ -8,18 +8,28 @@
 </head>
 <body>
     <h1>Dice Roller</h1>
-    <button id="rollDice">Roll the Dice</button>
-    <p id="result">Result will appear here...</p>
+    <button id="rollDice">Roll Dice</button>
+    <p id="result">Click the button to roll a dice!</p>
 
     <script>
-        document.getElementById("rollDice").addEventListener("click", async () => {
+        // Ping backend on page load to wake up server
+        window.onload = async function () {
             try {
-                const response = await fetch("https://dice-roller-aa-ddcbg9gmf8ddgzdu.uaenorth-01.azurewebsites.net/roll");
-                const data = await response.json();
-                document.getElementById("result").innerText = `You rolled a ${data.result}`;
+                await fetch("https://dice-roller-aa-ddcbg9mf8ddgzd.uaenorth-01.azurewebsites.net/api/healthcheck");
+                console.log("Backend wake-up call sent.");
             } catch (error) {
+                console.error("Failed to wake up backend:", error);
+            }
+        };
+
+        document.getElementById("rollDice").addEventListener("click", async function () {
+            try {
+                const response = await fetch("https://dice-roller-aa-ddcbg9mf8ddgzd.uaenorth-01.azurewebsites.net/api/roll");
+                const data = await response.json();
+                document.getElementById("result").textContent = `You rolled a ${data.roll}`;
+            } catch (error) {
+                document.getElementById("result").textContent = "Error rolling dice. Try again!";
                 console.error("Error fetching dice roll:", error);
-                document.getElementById("result").innerText = "Error rolling dice!";
             }
         });
     </script>
